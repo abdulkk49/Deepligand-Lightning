@@ -35,7 +35,7 @@ class BasicBlock(nn.Module):
     def forward(self, x):
         residual = x
 
-        out = self.c    
+        out = self.conv1(x)   
         out = self.bn1(out)
         out = self.relu(out)
 

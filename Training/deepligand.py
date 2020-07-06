@@ -20,12 +20,13 @@ from pprint import pprint
 from time import time
 from torch.utils.data import DataLoader
 from torchsummary import summary
-sys.path.insert(0, dirname(dirname(abspath("__file__"))))
+print(dirname(abspath("__file__")))
+sys.path.append(dirname(abspath("__file__")))
 import pytorch_lightning as pl
 import bilm
 
 from datasets.utils import *
-from datasets.mhcpepdata import  MHCPepDataset
+from datasets.mhcpepata import  MHCPepDataset
 from models.pepnet import Net
 
 
@@ -244,7 +245,7 @@ class MHCPeptideClassifier(pl.LightningModule):
     #     self.optimizer = self.configure_optimizers()
     #     self.optimizer.load_state_dict(torch.load(join(dirname(checkpoint_path), 'optim.pt'))['optimizer'])
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     pwd = dirname(realpath("__file__"))
 
     trainDir = join(pwd, "train")
@@ -254,10 +255,14 @@ if __name__ == "__main__"
     allDataDir = join(pwd, "alldata")
     baseAllData = join(allDataDir, "CV")
 
-    CVsplit(baseAllData, trainDir, valDir)
-    system(' '.join(['cp', join(dirname(abspath("__file__")), 'data.py'), join(bilm.__path__[0])]))
-    system(' '.join(['python {}/datasets/preprocess.py -f {}/trial -o {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
-    system(' '.join(['python {}/datasets/preprocess.py -f {}/trial -o {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
+    print("Splitting the data into train and validation sets..")
+    CVSplit(baseAllData, trainDir, valDir)
+    print("Splitting Done..")
+    system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
+    print("Preprocessing Training data..")
+    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
+    print("Preprocessing validation data..")
+    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
 
     model_arch = 'mhccat2pep_pepres_relation_massspec_elmo_novar_v3_normal_noeps_bs1024_init1'
     outdir = join(join(pwd, "data"), model_arch)
@@ -277,6 +282,9 @@ if __name__ == "__main__"
     for key, item in get_setup()['config'].items():
         if key not in best_config.keys():
             best_config[key] = item
+            
+    best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
+    best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
 
     model = MHCPeptideClassifier(config=best_config)
     outdir = join(pwd, 'trial')

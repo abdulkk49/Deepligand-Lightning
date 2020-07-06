@@ -1,6 +1,6 @@
 from os.path import join, exists, dirname, abspath
 import subprocess, h5py, numpy as np
-
+import torch
 class MHCPepDataset(torch.utils.data.Dataset):
     def __init__(self, prefix):
         self.prefix = prefix

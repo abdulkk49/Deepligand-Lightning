@@ -2,13 +2,14 @@ from os.path import join, exists, dirname, realpath
 from os import makedirs, system
 import shutil
 import sys
+import pandas as pd, numpy as np
 
 def CVSplit(baseAllData, trainDir, valDir):
     if not exists(trainDir):
         create_dir(trainDir)
     if not exists(valDir):
         create_dir(valDir)
-    baseTrain = join(actionDir, "CV")
+    baseTrain = join(trainDir, "CV")
     baseVal = join(valDir, "CV")
     for i in range(1,6):
         filename = baseAllData + str(i)
@@ -126,13 +127,13 @@ def mhc_mapper(rawfile, outdir, pseudo_seq_dict, dt='test'):
     if len(alleles_not_recognized)>0:
         raise Exception('The following alleles are not recognized:', alleles_not_recognized)
 
-def embed(datadir, outdir):
-    pwd = dirname(realpath(__file__))
+def embed(datadir, outdir, dt):
+    pwd = dirname(realpath("__file__"))
     expected_pep_len = 9
     mapper = join(pwd, 'data/onehot_first20BLOSUM50')
     elmotag = 'elmo_embeddingds_alltrain.epitope.elmo'
 
-    template = 'python {}/embed_plusrelation_elmo_massspec.py --mhcfile {} --pepfile {} --labelfile {} \
+    template = 'python {}/datasets/embed_plusrelation_elmo_massspec.py --mhcfile {} --pepfile {} --labelfile {} \
             --relationfile {} --masslabelfile {} --elmodir {} --elmotag {}\
         --mapper {} --outfileprefix  {} --expected_pep_len {}'
 
