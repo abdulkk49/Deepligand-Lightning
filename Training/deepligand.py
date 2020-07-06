@@ -20,7 +20,7 @@ from pprint import pprint
 from time import time
 from torch.utils.data import DataLoader
 from torchsummary import summary
-print(dirname(abspath("__file__")))
+# print(dirname(abspath("__file__")))
 sys.path.append(dirname(abspath("__file__")))
 import pytorch_lightning as pl
 import bilm
