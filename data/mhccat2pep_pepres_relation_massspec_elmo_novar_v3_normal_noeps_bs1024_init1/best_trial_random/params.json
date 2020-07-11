@@ -1,1 +1,1 @@
-{"pep_conv_fn": 256, "dense_size": 64, "mass_embed_size": 2560, "adam_lr": 0.001, "batch_size": 1024, "adam_beta1": 0.9, "pep_block": "basic", "pep_layers": [5], "adam_beta2": 0.99, "train_epoch_scale": 1, "class_num": 1}
+{"pep_conv_fn": 256, "dense_size": 64, "mass_embed_size": 2560, "adam_lr": 0.001, "batch_size": 128, "adam_beta1": 0.9, "pep_block": "basic", "pep_layers": [5], "adam_beta2": 0.99, "train_epoch_scale": 1, "class_num": 1}
