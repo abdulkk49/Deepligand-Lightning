@@ -52,7 +52,6 @@ def get_setup():
                    "dense_size": 64,
                    "train_epoch_scale": 1,
                    "class_num": 1,
-                   "batch_size": 128,
                    "mass_embed_size": 2560,
                    "mode": 'train'
                },
@@ -249,12 +248,13 @@ class MHCPeptideClassifier(pl.LightningModule):
     #     self.optimizer = self.configure_optimizers()
     #     self.optimizer.load_state_dict(torch.load(join(dirname(checkpoint_path), 'optim.pt'))['optimizer'])
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Keras + Hyperband for genomics")
+    parser.add_argument("-b", "--batch", required=True)
+    return parser.parse_args()
+
 if __name__ == "__main__":
-    def parse_args():
-        parser = argparse.ArgumentParser(description="Keras + Hyperband for genomics")
-        parser.add_argument("-b", "--batch", required=True)
-        return parser.parse_args()
-        
+
     args = parse_args()
 
     pwd = dirname(realpath("__file__"))
