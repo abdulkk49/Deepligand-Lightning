@@ -128,12 +128,12 @@ class MHCPeptideClassifier(pl.LightningModule):
         # except ValueError as err:
         #     print ('fail to calculate train auc:', err)
 
-        # masslabel_np = masslabels.cpu().detach().numpy()
-        # masspred = mass_pred.cpu().detach().numpy()
-        # try:
-        #     t_mass_auc = roc_auc_score(masslabel_np, masspred)
-        # except ValueError as err:
-        #   print ('fail to calculate train mass auc:', err)
+        masslabel_np = masslabels.cpu().detach().numpy()
+        masspred = mass_pred.cpu().detach().numpy()
+        try:
+            t_mass_auc = roc_auc_score(masslabel_np, masspred)
+        except ValueError as err:
+          print ('fail to calculate train mass auc:', err)
 
         tensorboard_logs = {'train_loss': loss}
         # 'train_auc': torch.Tensor(t_auc),
@@ -141,6 +141,7 @@ class MHCPeptideClassifier(pl.LightningModule):
         # 'train_spearmanr': torch.Tensor(t_spearmanr),
         return {
                 'loss': loss,\
+                'train_mass_auc': torch.from_numpy(np.array(t_mass_auc)),
                 'progress_bar': {'train_loss': loss},\
                 'log': tensorboard_logs
               }
@@ -148,7 +149,7 @@ class MHCPeptideClassifier(pl.LightningModule):
     def training_epoch_end(self, outputs):
         train_loss_mean = torch.stack([x['loss'] for x in outputs]).mean()
         # train_auc_mean = torch.stack([x['train_auc'] for x in outputs]).mean()
-        # train_mass_auc_mean = torch.stack([x['train_mass_auc'] for x in outputs]).mean()
+        train_mass_auc_mean = torch.stack([x['train_mass_auc'] for x in outputs]).mean()
         # train_spearmanr_mean += output['train_spearmanr']
 
         # log training accuracy at the end of an epoch
@@ -156,7 +157,7 @@ class MHCPeptideClassifier(pl.LightningModule):
         # 'train_mass_auc': train_mass_auc_mean.item(),
         # 'train_spearmanr': train_spearmanr_mean.item()
         results = {
-            'log': {'avg_train_loss': train_loss_mean.item()},
+            'log': {'avg_train_loss': train_loss_mean.item(), 'train_mass_auc': train_mass_auc_mean.item(),},
             'progress_bar': {'avg_train_loss': train_loss_mean.item()}
         }
         return results
@@ -195,12 +196,12 @@ class MHCPeptideClassifier(pl.LightningModule):
         # except ValueError as err:
         #   print ('fail to calculate val auc:', err)
 
-        # masslabel_np = masslabels.cpu().detach().numpy()
-        # masspred = mass_pred.cpu().detach().numpy()
-        # try:
-        #   v_mass_auc = roc_auc_score(masslabel_np, masspred)
-        # except ValueError as err:
-        #   print ('fail to calculate val mass auc:', err)
+        masslabel_np = masslabels.cpu().detach().numpy()
+        masspred = mass_pred.cpu().detach().numpy()
+        try:
+          v_mass_auc = roc_auc_score(masslabel_np, masspred)
+        except ValueError as err:
+          print ('fail to calculate val mass auc:', err)
         
         tensorboard_logs = {'val_loss': loss}
         # 'val_auc': torch.Tensor(v_auc),
@@ -208,6 +209,8 @@ class MHCPeptideClassifier(pl.LightningModule):
         # 'val_spearmanr': torch.Tensor(v_spearmanr),
         return {
                 'val_loss': loss,
+                # 'val_auc': torch.from_numpy(np.array(v_auc)),
+                'val_mass_auc': torch.from_numpy(np.array(v_mass_auc)),
                 'progress_bar': {'val_loss': loss},
                 'log': tensorboard_logs
         }
@@ -215,11 +218,12 @@ class MHCPeptideClassifier(pl.LightningModule):
     def validation_epoch_end(self, outputs): 
         avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
         # val_auc_mean = torch.stack([x['val_auc'] for x in outputs]).mean()
-        # val_mass_auc_mean = torch.stack([x['val_mass_auc'] for x in outputs]).mean()
+        val_mass_auc_mean = torch.stack([x['val_mass_auc'] for x in outputs]).mean()
         # 'val_mass_auc': val_mass_auc_mean.item(),
         # 'val_auc': val_auc_mean.item()
         return {'val_loss': avg_loss,
-                'progress_bar': {'avg_val_loss': avg_loss.item()}}
+                'progress_bar': {'avg_val_loss': avg_loss.item(), 'val_mass_auc': val_mass_auc_mean.item()}
+               }
         
     # def predictClass(self, dataset):
     #     self.net.eval()
