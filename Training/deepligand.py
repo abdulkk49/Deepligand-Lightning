@@ -277,7 +277,7 @@ if __name__ == "__main__":
     evalout = join(outdir,  'best_model_eval.txt')
     best_trial_dir = realpath(join(outdir, 'best_trial_random'))
     historyfile = realpath(join(outdir, 'train.log'))
-    print('Using model.py under {}'.format(realpath(os.environ['PYTHONPATH'])))
+    # print('Using model.py under {}'.format(realpath(os.environ['PYTHONPATH'])))
 
     with open(join(best_trial_dir, 'params.json')) as f:
             best_config = json.loads(f.readline())

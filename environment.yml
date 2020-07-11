@@ -176,7 +176,7 @@ dependencies:
     - sqlalchemy==1.2.16
     - sqlparse==0.2.4
     - tensorboardx==1.2
-    - tensorflow-gpu==1.2.0
+    - tensorflow-gpu==1.15.2
     - tensorflow-tensorboard==1.5.1
     - termcolor==1.1.0
     - thinc==6.10.2
