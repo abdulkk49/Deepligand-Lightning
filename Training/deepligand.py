@@ -292,5 +292,5 @@ if __name__ == "__main__":
 
     model = MHCPeptideClassifier(config=best_config)
     outdir = join(pwd, 'trial')
-    trainer = pl.Trainer(default_root_dir = outdir) 
+    trainer = pl.Trainer(default_root_dir = outdir, max_epochs = 10) 
     trainer.fit(model)
