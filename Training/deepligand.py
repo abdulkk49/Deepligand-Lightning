@@ -288,7 +288,6 @@ if __name__ == "__main__":
 
     with open(join(best_trial_dir, 'params.json')) as f:
             best_config = json.loads(f.readline())
-    print('Best config:', best_config)
 
     for key, item in get_setup()['config'].items():
         if key not in best_config.keys():
@@ -297,6 +296,8 @@ if __name__ == "__main__":
     best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
     best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
     best_config["batch_size"] = args.batch
+
+    print('Best config:', best_config)
 
     model = MHCPeptideClassifier(config=best_config)
     outdir = join(pwd, 'trial')
