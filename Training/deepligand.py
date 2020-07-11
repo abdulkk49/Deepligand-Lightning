@@ -67,19 +67,20 @@ class MHCPeptideClassifier(pl.LightningModule):
         # summary(self.net.PEPnet, (self.config['pep_embed_size']+self.config['mhc_len']*self.config['mhc_embed_size'], self.config['pep_len']))
         print('num of params:', cnt_param(self.net))
 
-    def prepare_data(self):
-        print('Loading training data...')
-        print('Train prefix : ', self.config['trainset_prefix'])
-        self.trainset = MHCPepDataset(self.config['trainset_prefix'])
-        print('Loading validation data...')
-        print('Validation prefix : ', self.config['validset_prefix'])
-        self.validset = MHCPepDataset(self.config['validset_prefix'])
+    # def prepare_data(self):
+       
+    #     self.trainset = MHCPepDataset(self.config['trainset_prefix'])
+       
  
     def train_dataloader(self):
-        return DataLoader(self.trainset, batch_size=self.config['batch_size'], shuffle=True, num_workers=0)
+        print('Loading training data...')
+        print('Train prefix : ', self.config['trainset_prefix'])
+        return DataLoader(MHCPepDataset(self.config['trainset_prefix']), batch_size=self.config['batch_size'], shuffle=True, num_workers=0)
         
     def val_dataloader(self):
-        return DataLoader(self.validset, batch_size=self.config['batch_size'], shuffle=False, num_workers=0)
+        print('Loading validation data...')
+        print('Validation prefix : ', self.config['validset_prefix'])
+        return DataLoader(MHCPepDataset(self.config['validset_prefix']), batch_size=self.config['batch_size'], shuffle=False, num_workers=0)
 
     # def test_dataloader(self):
     #     print('Loading test data..')
