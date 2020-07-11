@@ -250,8 +250,15 @@ class MHCPeptideClassifier(pl.LightningModule):
     #     self.optimizer.load_state_dict(torch.load(join(dirname(checkpoint_path), 'optim.pt'))['optimizer'])
 
 if __name__ == "__main__":
-    pwd = dirname(realpath("__file__"))
+    def parse_args():
+        parser = argparse.ArgumentParser(description="Keras + Hyperband for genomics")
+        parser.add_argument("-b", "--batch", required=True)
+        return parser.parse_args()
+        
+    args = parse_args()
 
+    pwd = dirname(realpath("__file__"))
+    
     trainDir = join(pwd, "train")
 
     valDir = join(pwd, "val")
@@ -289,6 +296,7 @@ if __name__ == "__main__":
             
     best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
     best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
+    best_config["batch_size"] = args.batch
 
     model = MHCPeptideClassifier(config=best_config)
     outdir = join(pwd, 'trial')
