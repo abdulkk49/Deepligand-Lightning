@@ -260,7 +260,7 @@ if __name__ == "__main__":
     baseAllData = join(allDataDir, "CV")
 
     print("Splitting the data into train and validation sets..")
-    CVSplit(baseAllData, trainDir, valDir)
+    # CVSplit(baseAllData, trainDir, valDir)
     print("Splitting Done..")
     system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
     print("Preprocessing Training data..")
