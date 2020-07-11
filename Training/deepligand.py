@@ -296,7 +296,7 @@ if __name__ == "__main__":
             
     best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
     best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
-    best_config["batch_size"] = args.batch
+    best_config["batch_size"] = int(args.batch)
 
     print('Best config:', best_config)
 
