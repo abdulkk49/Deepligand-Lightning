@@ -1,40 +1,35 @@
 from os.path import join, exists, dirname, abspath
 import subprocess, h5py, numpy as np
 import torch
+from os.path import join, exists, dirname, abspath
+import subprocess, h5py, numpy as np
+import torch
 class MHCPepDataset(torch.utils.data.Dataset):
     def __init__(self, prefix):
         self.prefix = prefix
         cnt = 1
-        self.label = []
-        self.masslabel = []
-        self.mhc = []
-        self.pep = []
-        self.peplen = []
-        self.relation = []
-        self.elmo = []
         self.num_sample = 0
         while exists(prefix+str(cnt)):
-            print('batch', cnt)
-
             with h5py.File(prefix+str(cnt),'r') as dataall:
-                self.label.append(dataall['label'][()].astype(np.float32))
-                self.masslabel.append(dataall['masslabel'][()].astype(np.float32))
-                self.mhc.append(dataall['mhc'][()].astype(np.float32))
-                self.pep.append(dataall['pep'][()].astype(np.float32))
-                self.peplen.append(dataall['peplen'][()].astype(np.float32))
-                self.relation.append(dataall['relation'][()].astype(np.uint8))
-                self.elmo.append(dataall['elmo'][()].astype(np.float32))
-            
+                self.num_sample += dataall['mhc'].shape[0]
             cnt += 1
-            self.num_sample += len(self.label[-1])
-
-        self.data_len = len(self.mhc)
 
     def __getitem__(self, index):
-        bs = 50000
+        bs = 1024
         cnt = index // bs
         i = index % bs
-        return self.mhc[cnt][i], self.pep[cnt][i], self.peplen[cnt][i],self.elmo[cnt][i], self.label[cnt][i], self.relation[cnt][i], self.masslabel[cnt][i]
+        with h5py.File(self.prefix+str(cnt + 1),'r') as dataall:
+            # print("batch num is " + str(cnt+1) )
+            label  = dataall['label'][i,:].astype(np.float32)
+            masslabel = dataall['masslabel'][i,:].astype(np.float32)
+            mhc = dataall['mhc'][i,:,:].astype(np.float32)
+            pep = dataall['pep'][i,:,:].astype(np.float32)
+            peplen = dataall['peplen'][i,:].astype(np.float32)
+            relation = dataall['relation'][i,:].astype(np.uint8)
+            elmo = dataall['elmo'][i,:,:].astype(np.float32)
+  
+        return mhc, pep, peplen, elmo, label, relation, masslabel
+
 
     def __len__(self):
         return self.num_sample

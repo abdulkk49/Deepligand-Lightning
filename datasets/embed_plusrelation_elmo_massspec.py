@@ -27,7 +27,7 @@ def lenpep_feature(pep):
     f1 = 1.0/(1.0 + np.exp((lenpep-args.expected_pep_len)/2.0))
     return f1, 1.0-f1
 
-def embed_all(mhc_f, pep_f, label_f, relation_f, masslabel_f, elmo_dir, elmotag, mapper, outfile_prefix, bs=50000):
+def embed_all(mhc_f, pep_f, label_f, relation_f, masslabel_f, elmo_dir, elmotag, mapper, outfile_prefix, bs=1024):
     mhc = []
     pep = []
     label = []
