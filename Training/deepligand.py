@@ -75,12 +75,12 @@ class MHCPeptideClassifier(pl.LightningModule):
     def train_dataloader(self):
         print('Loading training data...')
         print('Train prefix : ', self.config['trainset_prefix'])
-        return DataLoader(MHCPepDataset(self.config['trainset_prefix']), batch_size=self.config['batch_size'], shuffle=True, num_workers=0)
+        return DataLoader(MHCPepDataset(self.config['trainset_prefix']), batch_size=self.config['batch_size'], shuffle=True, num_workers=4)
         
     def val_dataloader(self):
         print('Loading validation data...')
         print('Validation prefix : ', self.config['validset_prefix'])
-        return DataLoader(MHCPepDataset(self.config['validset_prefix']), batch_size=self.config['batch_size'], shuffle=False, num_workers=0)
+        return DataLoader(MHCPepDataset(self.config['validset_prefix']), batch_size=self.config['batch_size'], shuffle=False, num_workers=4)
 
     # def test_dataloader(self):
     #     print('Loading test data..')
