@@ -213,7 +213,7 @@ class MHCPeptideClassifier(pl.LightningModule):
                 'val_mass_auc': torch.from_numpy(np.array(v_mass_auc)),
                 'progress_bar': {'val_loss': loss},
                 'log': tensorboard_logs
-        }
+                }
 
     def validation_epoch_end(self, outputs): 
         avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
@@ -270,37 +270,37 @@ if __name__ == "__main__":
     # print("Splitting the data into train and validation sets..")
     # CVSplit(baseAllData, trainDir, valDir)
     # print("Splitting Done..")
-    system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
-    print("Preprocessing Training data..")
-    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
-    print("Preprocessing validation data..")
-    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
+    # system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
+    # print("Preprocessing Training data..")
+    # system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
+    # print("Preprocessing validation data..")
+    # system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
 
-    # model_arch = 'mhccat2pep_pepres_relation_massspec_elmo_novar_v3_normal_noeps_bs1024_init1'
-    # outdir = join(join(pwd, "data"), model_arch)
-    # if not exists(outdir):
-    #     makedirs(outdir)
+    model_arch = 'mhccat2pep_pepres_relation_massspec_elmo_novar_v3_normal_noeps_bs1024_init1'
+    outdir = join(join(pwd, "data"), model_arch)
+    if not exists(outdir):
+        makedirs(outdir)
 
-    # best_model_dir = join(outdir, 'best_model')
-    # evalout = join(outdir,  'best_model_eval.txt')
-    # best_trial_dir = realpath(join(outdir, 'best_trial_random'))
-    # historyfile = realpath(join(outdir, 'train.log'))
-    # # print('Using model.py under {}'.format(realpath(os.environ['PYTHONPATH'])))
+    best_model_dir = join(outdir, 'best_model')
+    evalout = join(outdir,  'best_model_eval.txt')
+    best_trial_dir = realpath(join(outdir, 'best_trial_random'))
+    historyfile = realpath(join(outdir, 'train.log'))
+    # print('Using model.py under {}'.format(realpath(os.environ['PYTHONPATH'])))
 
-    # with open(join(best_trial_dir, 'params.json')) as f:
-    #         best_config = json.loads(f.readline())
+    with open(join(best_trial_dir, 'params.json')) as f:
+            best_config = json.loads(f.readline())
 
-    # for key, item in get_setup()['config'].items():
-    #     if key not in best_config.keys():
-    #         best_config[key] = item
+    for key, item in get_setup()['config'].items():
+        if key not in best_config.keys():
+            best_config[key] = item
             
-    # best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
-    # best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
-    # best_config["batch_size"] = int(args.batch)
+    best_config["trainset_prefix"] = '/'.join([pwd, "trial", "train.h5.batch"])
+    best_config["validset_prefix"] = '/'.join([pwd, "trial", "val.h5.batch"])
+    best_config["batch_size"] = int(args.batch)
 
-    # print('Best config:', best_config)
+    print('Best config:', best_config)
 
-    # model = MHCPeptideClassifier(config=best_config)
-    # outdir = join(pwd, 'trial')
-    # trainer = pl.Trainer(default_root_dir = outdir, max_epochs = 10) 
-    # trainer.fit(model)
+    model = MHCPeptideClassifier(config=best_config)
+    outdir = join(pwd, 'trial')
+    trainer = pl.Trainer(default_root_dir = outdir, max_epochs = 10) 
+    trainer.fit(model)

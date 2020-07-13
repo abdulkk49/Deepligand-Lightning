@@ -51,7 +51,7 @@ tokenize(join(args.outdir, dt + '.pep'), join(args.outdir, dt + '.pep.token'))
 
 # Peptide embedding
 print('Peptide embedding')
-system(' '.join(['python {}/datasets/elmo_embed.py -d {} -e {} -t {} --trial_num -1'.format(pwd, args.outdir, join(pwd, 'data'), dt)]))
+system(' '.join(['python {}/datasets/elmo_embed.py -d {} -e {} -t {}'.format(pwd, args.outdir, join(pwd, 'data'), dt)]))
 
 # Embed
 print('Data embedding')
