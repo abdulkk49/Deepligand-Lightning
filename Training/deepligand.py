@@ -270,11 +270,11 @@ if __name__ == "__main__":
     # print("Splitting the data into train and validation sets..")
     # CVSplit(baseAllData, trainDir, valDir)
     # print("Splitting Done..")
-    # system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
-    # print("Preprocessing Training data..")
-    # system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
-    # print("Preprocessing validation data..")
-    # system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
+    system(' '.join(['cp', join(dirname(abspath("__file__")), 'data/data.py'), join(bilm.__path__[0])]))
+    print("Preprocessing Training data..")
+    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/train/trainraw -a {}'.format(pwd, pwd, pwd, "train")]))
+    print("Preprocessing validation data..")
+    system(' '.join(['python {}/datasets/preprocess.py -o {}/trial -f {}/val/valraw -a {}'.format(pwd, pwd, pwd, "val")]))
 
     model_arch = 'mhccat2pep_pepres_relation_massspec_elmo_novar_v3_normal_noeps_bs1024_init1'
     outdir = join(join(pwd, "data"), model_arch)

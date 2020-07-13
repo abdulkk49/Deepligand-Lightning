@@ -35,8 +35,10 @@ def mergefiles(prefix, suffix):
                 for line in f:
                     outfile.write(line)
 
-def createlrm(outdir, dt):
-    rawfile = join(outdir, dt + "_combined")
+def createlrm(pwd, dt):
+    outdir = join(pwd, "trial")
+    actionDir = join(pwd, dt)
+    rawfile = join(actionDir, dt + "_combined")
     with open(rawfile) as f, open(join(outdir, dt+'.masslabel'), 'w') as f2,\
         open(join(outdir, dt+'.label'), 'w') as f3, \
         open(join(outdir, dt+'.relation'), 'w') as f4:

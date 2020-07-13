@@ -24,8 +24,10 @@ dt = args.action
 # baseAction = join(actionDir, "CV")
 
 # mergefiles(baseAction, "_" + dt) 
+# print("Creating raw file...")
 # createraw(actionDir, dt)
-# createlrm(actionDir, dt)
+print("Creating labels, masslabels and relations")
+createlrm(pwd, dt)
 
 # # Load pseudo-sequences
 # pseudo_seq_file = join(pwd, 'data/MHC_pseudo.dat')
