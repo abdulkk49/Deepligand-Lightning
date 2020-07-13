@@ -157,7 +157,7 @@ class MHCPeptideClassifier(pl.LightningModule):
         # 'train_mass_auc': train_mass_auc_mean.item(),
         # 'train_spearmanr': train_spearmanr_mean.item()
         results = {
-            'log': {'avg_train_loss': train_loss_mean.item(), 'train_mass_auc': train_mass_auc_mean.item(),},
+            'log': {'avg_train_loss': train_loss_mean.item(), 'train_mass_auc': train_mass_auc_mean.item()},
             'progress_bar': {'avg_train_loss': train_loss_mean.item()}
         }
         return results
