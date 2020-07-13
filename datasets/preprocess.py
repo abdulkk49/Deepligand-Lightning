@@ -29,29 +29,29 @@ dt = args.action
 print("Creating labels, masslabels and relations")
 createlrm(pwd, dt)
 
-# # Load pseudo-sequences
-# pseudo_seq_file = join(pwd, 'data/MHC_pseudo.dat')
-# pseudo_seq_dict = dict()
-# with open(pseudo_seq_file) as f:
-#     for x in f:
-#         line = x.split()
-#         pseudo_seq_dict[line[0]] = line[1]
+# Load pseudo-sequences
+pseudo_seq_file = join(pwd, 'data/MHC_pseudo.dat')
+pseudo_seq_dict = dict()
+with open(pseudo_seq_file) as f:
+    for x in f:
+        line = x.split()
+        pseudo_seq_dict[line[0]] = line[1]
 
-# # Map MHC names
-# print('MHC mapping..')
-# mhc_mapper(args.file, args.outdir, pseudo_seq_dict, dt)
+# Map MHC names
+print('MHC mapping..')
+mhc_mapper(args.file, args.outdir, pseudo_seq_dict, dt)
 
-# # Pad peptides to 40 AA
-# print('Peptide padding')
-# padseq(join(args.outdir, dt + '.pep'), '.pep', pad2len = {'.pep':40})
+# Pad peptides to 40 AA
+print('Peptide padding')
+padseq(join(args.outdir, dt + '.pep'), '.pep', pad2len = {'.pep':40})
 
-# # Tokenize
-# print('Tokenizing')
-# tokenize(join(args.outdir, dt + '.pep'), join(args.outdir, dt + '.pep.token'))
+# Tokenize
+print('Tokenizing')
+tokenize(join(args.outdir, dt + '.pep'), join(args.outdir, dt + '.pep.token'))
 
-# # Peptide embedding
-# print('Peptide embedding')
-# system(' '.join(['python {}/datasets/elmo_embed.py -d {} -e {} -t {} --trial_num -1'.format(pwd, args.outdir, join(pwd, 'data'), dt)]))
+# Peptide embedding
+print('Peptide embedding')
+system(' '.join(['python {}/datasets/elmo_embed.py -d {} -e {} -t {} --trial_num -1'.format(pwd, args.outdir, join(pwd, 'data'), dt)]))
 
 # Embed
 print('Data embedding')
