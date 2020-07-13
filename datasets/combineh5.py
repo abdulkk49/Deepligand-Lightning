@@ -22,6 +22,7 @@ with h5py.File(join(direc, dt + "all.h5"), 'w') as f:
     prefix = join(direc, dt + ".h5.batch")
     print
     while exists(prefix+str(count)):
+        print("batch" + str(count))
         h5fr = h5py.File(prefix+str(count),'r')
         label = h5fr['label'][()].astype(np.float32)
         masslabel= h5fr['masslabel'][()].astype(np.float32)
